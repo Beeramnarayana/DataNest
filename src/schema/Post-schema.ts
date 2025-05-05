@@ -9,7 +9,6 @@ export const schema = appSchema({
         { name: 'title', type: 'string' },
         { name: 'body', type: 'string' },
        { name: 'image', type: 'string' },
-         // Optional: for timestamps
       ],
     }),
   ],

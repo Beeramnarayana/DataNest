@@ -5,7 +5,6 @@ import { RootStackParamList } from '../../App'
 import { Q } from '@nozbe/watermelondb'
 import database from '../Database/Database';
 import User from '../models/user';
-import bcrypt from 'bcryptjs';
 type RegisterProps= NativeStackScreenProps<RootStackParamList, 'register'>;
 
 const Register = ({navigation}:RegisterProps) => {
@@ -13,18 +12,17 @@ const Register = ({navigation}:RegisterProps) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const handleSumbit = async () => {
+  const handleSumbit = async() => {
     if(!username || !email || !password) {
       Alert.alert('Please fill in all fields.');
       return;
     }
+    if (typeof password !== 'string' || password.trim() === '') {
+      Alert.alert('Invalid password.');
+      return;
+    }
     try {
-      //const saltRounds = 10; // Number of salt rounds for hashing
-
-      //const hashedPassword = await bcrypt.hash(password, saltRounds); // Hash the password
-     // console.log(typeof(hashedPassword))
       const UserCollection= database.collections.get<User>('user');
-      console.log(UserCollection)
       const existingUser = await UserCollection.query(Q.where('email', email)).fetch();
       if (existingUser.length > 0) {
         Alert.alert('Email already exists!');
@@ -34,15 +32,20 @@ const Register = ({navigation}:RegisterProps) => {
         await UserCollection.create((user) => {
           user.name = username; 
           user.email = email;
-          user.password =password; // Store the hashed password
+          user.password =password; 
         });
       });
       Alert.alert('Registration successful!');
       navigation.navigate('Home');
-    } catch (error) {
-      console.error('Error registering:', error);
-      Alert.alert('An error occurred while registering.');
-    }
+     } catch (error) {
+       console.error('Error registering:', error);
+       Alert.alert('An error occurred while registering.');
+     }
+   finally{
+      setUsername('');
+      setEmail('');
+      setPassword('');
+   }
 
   };
   return (

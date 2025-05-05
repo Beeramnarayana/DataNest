@@ -3,13 +3,12 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { View, Text, TextInput, Button, FlatList, StyleSheet, Alert, Image } from 'react-native';
 import database from '../Database/Database-post';
 import  Post from '../models/post';
-import { PermissionsAndroid, Platform } from 'react-native';
 
 interface PostItem {
   id: string;
   title: string;
   body: string;
-  image:string // Optional: for timestamps
+  image:string 
 }
 
 const Account: React.FC = () => {
@@ -79,8 +78,6 @@ const Account: React.FC = () => {
   };
 
  const handleSelectImage = async() => {
-    const hasPermission = await requestGalleryPermission();
-    if (!hasPermission) {
     launchImageLibrary({ mediaType: 'photo',includeBase64:true },(response)=>{
         if (response.didCancel) {
             console.log('User cancelled image picker');
@@ -88,56 +85,14 @@ const Account: React.FC = () => {
             console.log('ImagePicker Error: ', response.errorMessage);
         } else if (response.assets && response.assets.length > 0) {
             const selectedImage = response.assets[0];
-            setImage(selectedImage.base64 || ''); // Use base64 or uri as needed
+            setImage(selectedImage.base64 || ''); 
         }
         else {
             console.log('No image selected');
         }
     });
-    }else{
-       Alert.alert('Permission denied', 'Please allow access to the gallery in settings.');
-     }
  }
- const requestGalleryPermission = async () => {
-    if (Platform.OS === 'android') {
-    try{
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Gallery Permission',
-          message: 'This app needs access to your gallery to upload images.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        }
-      );
 
-      if (Platform.Version >= 33) {
-        const mediaGranted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-          {
-            title: 'Media Permission',
-            message: 'This app needs access to your media to upload images.',
-            buttonNeutral: 'Ask Me Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'OK',
-          }
-        );
-        return (
-          granted === PermissionsAndroid.RESULTS.GRANTED &&
-          mediaGranted === PermissionsAndroid.RESULTS.GRANTED
-        );
-      }
-
-    return granted === PermissionsAndroid.RESULTS.GRANTED;
-    }catch (err) {
-        console.warn(err);
-        return false;
-      }   
-    }
-    return true;
-  };
-  
   const handleDelete = async (id: string) => {
     try {
       const postsCollection = database.collections.get<Post>('posts');

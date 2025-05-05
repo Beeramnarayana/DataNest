@@ -27,7 +27,7 @@ const ApiFetching = () => {
 
     const handleSave = async () => {
         if (!name) {    
-            Alert.alert('Please fill in both title and body.');
+            Alert.alert('Please enter a movie name!');
             return;
         }
         try {
@@ -117,7 +117,7 @@ const ApiFetching = () => {
         )
     }
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Api Fetching</Text>
             <TextInput
                 style={styles.input}

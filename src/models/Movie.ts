@@ -1,7 +1,7 @@
 import { Model } from '@nozbe/watermelondb';
-import { field } from '@nozbe/watermelondb/decorators'; // Ensure this import is correct and matches your library setup
+import { field } from '@nozbe/watermelondb/decorators'; 
 
-export default class Movie extends Model {
+export default class movie extends Model {
   static table = 'movie';
 
   @field('title') title!: string;
@@ -9,5 +9,5 @@ export default class Movie extends Model {
     @field('year') year!: string;
     @field('genre') genre!: string;
     @field('director') director!: string;
-   // Ensure the type matches the expected format (e.g., Date for timestamps)
+  
 }

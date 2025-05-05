@@ -1,4 +1,3 @@
-// filepath: c:\Users\beera\OneDrive\Desktop\DataNest\src\models\user.ts
 import { Model } from '@nozbe/watermelondb';
 import { field } from '@nozbe/watermelondb/decorators';
 

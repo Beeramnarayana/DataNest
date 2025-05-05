@@ -1,4 +1,3 @@
-// filepath: c:\Users\beera\OneDrive\Desktop\DataNest\src\Database\Database.ts
 import { Database } from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 import { schema } from '../schema/Schema';

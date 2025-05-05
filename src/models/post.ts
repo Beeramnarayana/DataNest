@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb';
-import { field } from '@nozbe/watermelondb/decorators'; // Ensure this import is correct and matches your library setup
+import { field } from '@nozbe/watermelondb/decorators'; 
 
 export default class Post extends Model {
   static table = 'posts';
@@ -7,5 +7,4 @@ export default class Post extends Model {
   @field('title') title!: string;
   @field('body') body!: string;
   @field('image') image!: string;
-   // Ensure the type matches the expected format (e.g., Date for timestamps)
 }

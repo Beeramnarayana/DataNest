@@ -4,9 +4,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../App'
 import { Q } from '@nozbe/watermelondb'
 import database from '../Database/Database';
-type LoginProps= NativeStackScreenProps<RootStackParamList, 'Login'>;
 import  User  from '../models/user';
-import bcrypt from 'bcryptjs';
+
+type LoginProps= NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const Login = ({navigation}:LoginProps) => {
    const [Email, setEmail] = React.useState('');
@@ -20,16 +20,10 @@ const Login = ({navigation}:LoginProps) => {
       const Cerdientials = database.collections.get<User>('user');
         const user = await Cerdientials.query(Q.where('email', Email)).fetch();
         
-        if (user.length > 0 && user[0].password===password) {
-          // const isPasswordValid = await bcrypt.compare(password, user[0].password); // Compare the password with the hashed password
-          // if (isPasswordValid){ 
+        if (user.length > 0 && user[0].password=== password) {
             Alert.alert('Login successful!');
             navigation.navigate('Home');
-          }
-          // else {
-          //   Alert.alert('Invalid password!');
-          // }
-       // }
+       }
          else {
           Alert.alert('Invalid password!');
         }
@@ -37,6 +31,10 @@ const Login = ({navigation}:LoginProps) => {
     catch (error) {
       console.error('Error logging in:', error);
       Alert.alert('An error occurred while logging in.');
+    }
+    finally{
+      setEmail('');
+      setPassword('');
     }
   };
 
